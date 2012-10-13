@@ -1,0 +1,37 @@
+Abbrev,Part of Speech,Useful
+CC,Coordinating conjunction,no
+CD,Cardinal number,yes
+DT,Determiner,no
+EX,Existential there,no
+FW,Foreign word,no
+IN,Preposition or subordinating conjunction,no
+JJ,Adjective,no
+JJR,Adjective, comparative,no
+JJS,Adjective, superlative,no
+LS,List item marker,yes
+MD,Modal,yes
+NN,Noun, singular or mass,yes
+NNS,Noun, plural,yes
+NNP,Proper noun, singular,yes
+NNPS,Proper noun, plural,yes
+PDT,Predeterminer,no
+POS,Possessive ending,no
+PRP,Personal pronoun,no
+PRP$,Possessive pronoun,no
+RB,Adverb,no
+RBR,Adverb, comparative,no
+RBS,Adverb, superlative,no
+RP,Particle,no
+SYM,Symbol,yes
+TO,to,no
+UH,Interjection,no
+VB,Verb, base form,no
+VBD,Verb, past tense,no
+VBG,Verb, gerund or present participle,no
+VBN,Verb, past participle,no
+VBP,Verb, non­3rd person singular present,no
+VBZ,Verb, 3rd person singular present,no
+WDT,Wh­determiner,no
+WP,Wh­pronoun,no
+WP$,Possessive wh­pronoun,no
+WRB,Wh­adverb,no
