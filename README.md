@@ -28,5 +28,5 @@ The elasticsearch engine can be accessed at:
 http://simomaha.com:9200/citycouncil/agendas/{dashed-date}
 
 example:
-http://simomaha.com:9200/citycouncil/agendas/{dashed-date}
+http://simomaha.com:9200/citycouncil/agendas/2012-10-16
 
