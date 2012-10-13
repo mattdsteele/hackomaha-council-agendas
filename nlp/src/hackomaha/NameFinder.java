@@ -7,15 +7,20 @@ import opennlp.tools.util.Span;
 import java.util.*;
 
 public class NameFinder {
-    public Set<String> findNames(String[] tokens) throws Exception {
-        HashSet<String> names = new HashSet<String>();
+    private final NameFinderME nameFinder;
+
+    public NameFinder() {
         TokenNameFinderModel model = Builder.tokenNameFinderModel("resources/en-ner-person.bin");
-        NameFinderME nameFinder = new NameFinderME(model);
-        Span[] spans = nameFinder.find(tokens);
+        nameFinder = new NameFinderME(model);
+    }
+
+    public Set<String> findNames(String[] sentence) throws Exception {
+        HashSet<String> names = new HashSet<String>();
+        Span[] spans = nameFinder.find(sentence);
         for (Span span : spans) {
             String val = "";
             for (int i = span.getStart(); i < span.getEnd(); i++) {
-                val += tokens[i] + " " ;
+                val += sentence[i] + " " ;
             }
             names.add(val.trim());
         }

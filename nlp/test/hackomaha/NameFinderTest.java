@@ -21,6 +21,7 @@ public class NameFinderTest {
         Set<String> names = nameFinder.findNames(tokens);
         assertThat(names.contains("Jim Suttle"), is(true));
     }
+
     private String[] getTokens() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("resources/a12-10-16.txt"));
         List<String> strings = new ArrayList<String>();
