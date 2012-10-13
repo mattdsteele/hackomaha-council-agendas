@@ -4,8 +4,9 @@
         <meta charset="utf-8"/>
         <title>Omaha City Council Agendas</title>
         <link href="css/bootstrap.min.css" rel="stylesheet"/>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="js/jquery-latest.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/simomaha.js"></script>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -22,9 +23,9 @@
                 </div>
                 <div class="row-fluid">
                     <div class="span8">
-                        <form>
+                        <form id="search">
                             <legend>Search</legend>
-                            <input type="text" class="input-large search-query" placeholder="Search" />
+                            <input type="text" name="search" class="input-large search-query" placeholder="Search" />
                             <button
                                 type="submit"
                                 class="btn">Submit</button>
