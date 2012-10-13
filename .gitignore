@@ -2,3 +2,8 @@
 .classpath
 .project
 .settings
+.idea
+*.iml
+**/bin
+.DS_Store
+
