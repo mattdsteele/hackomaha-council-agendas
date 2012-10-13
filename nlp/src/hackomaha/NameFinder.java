@@ -14,15 +14,20 @@ public class NameFinder {
         nameFinder = new NameFinderME(model);
     }
 
-    public Set<String> findNames(String[] sentence) throws Exception {
+    public Set<String> findNames(String phrase) throws Exception {
         HashSet<String> names = new HashSet<String>();
-        Span[] spans = nameFinder.find(sentence);
-        for (Span span : spans) {
-            String val = "";
-            for (int i = span.getStart(); i < span.getEnd(); i++) {
-                val += sentence[i] + " " ;
+        String[] sentences = new SentenceDetector().getSentences(phrase);
+        for (String sentence : sentences) {
+            String[] words = sentence.split(" ");
+            Span[] spans = nameFinder.find(words);
+            for (Span span : spans) {
+                String val = "";
+                for (int i = span.getStart(); i < span.getEnd(); i++) {
+                    val += words[i] + " " ;
+                }
+                names.add(val.trim());
             }
-            names.add(val.trim());
+
         }
         return names;
     }

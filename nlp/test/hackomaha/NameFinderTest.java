@@ -17,17 +17,17 @@ public class NameFinderTest {
     @Test
     public void canFindSomeNames() throws Exception {
         NameFinder nameFinder = new NameFinder();
-        String[] tokens = getTokens();
-        Set<String> names = nameFinder.findNames(tokens);
+        String text = getText();
+        Set<String> names = nameFinder.findNames(text);
         assertThat(names.contains("Jim Suttle"), is(true));
     }
 
-    private String[] getTokens() throws FileNotFoundException {
+    private String getText() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("resources/a12-10-16.txt"));
-        List<String> strings = new ArrayList<String>();
-        while(scanner.hasNext()) {
-            strings.add(scanner.next());
+        StringBuffer buffer = new StringBuffer();
+        while(scanner.hasNextLine()) {
+            buffer.append(scanner.nextLine());
         }
-        return strings.toArray(new String[]{});
+        return buffer.toString();
     }
 }
