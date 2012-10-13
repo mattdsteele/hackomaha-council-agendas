@@ -7,6 +7,59 @@ use LWP::UserAgent;
 
 my $id = 0;
 
+sub dbPut {
+    my ($object, $index, $payobj) = @_;
+
+    my $payload = &encode_json($payobj);
+
+    my $req = HTTP::Request->new(PUT =>
+        "http://172.16.100.194:9200/elasticsearch_kosai03/$object/$index");
+    $req->content_type('application/json');
+    $req->content($payload);
+
+    if (0) {
+        print "PUT http://172.16.100.194:9200/elasticsearch_kosai03/$object/$index\n";
+        print &Dumper($payobj);
+        return;
+    }
+    else {
+        my $ua = LWP::UserAgent->new;
+        $ua->agent("CrappyUserAgent");
+
+        my $res = $ua->request($req);
+        if ($res->is_success) {
+            print "Deployed\n";
+            print $res->content, "\n";
+        }
+        else {
+            print $res->status_line, "\n";
+        }
+    }
+}
+
+sub putItems {
+    my ($blob) = @_;
+
+    my $item = {
+        archive => $blob->{date},
+        date => $blob->{date},
+        text => []
+    };
+    my $iter = 0;
+    for my $line (@{$blob->{text}}) {
+        if ($line =~ m/^(\d+)\.$/) {
+            if ($item->{item}) {
+                &dbPut("items", $item->{item}, $item);
+            }
+            $iter++;
+            $item->{text} = [];
+            $item->{item} = $blob->{date} . "-$1";
+        }
+        push @{$item->{text}}, $line;
+    }
+    &dbPut("items", $item->{item}, $item);
+}
+
 for my $file (`ls data/*.txt`) {
     print $file;
     chomp $file;
@@ -38,29 +91,10 @@ for my $file (`ls data/*.txt`) {
     }
 
     my $blobofstuff = {
-        name => $pdfname,
+        file => $pdfname,
         date => $date,
-        agenda => \@text
+        text => \@text
     };
-
-    my $payload = &encode_json($blobofstuff);
-
-    my $ua = LWP::UserAgent->new;
-
-    $ua->agent("CrappyUserAgent");
-    
-    my $req = HTTP::Request->new(PUT =>
-        "http://172.16.100.194:9200/elasticsearch_kosai03/agenda/$date");
-    $req->content_type('application/json');
-    $req->content($payload);
-
-    my $res = $ua->request($req);
-    if ($res->is_success) {
-        print "Deployed $pdfname\n";
-        print $res->content, "\n";
-    }
-    else {
-        print $res->status_line, "\n";
-    }
-
+    #&dbPut("agendas",$date,$blobofstuff);
+    &putItems($blobofstuff);
 }
