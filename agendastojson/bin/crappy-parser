@@ -1,8 +1,11 @@
 #!/usr/bin/perl
 
-@lines = `wget -O - GET http://www.cityofomaha.org/cityclerk/city-council/agendas`;
+my $page = $ARGV[0] || "agendas";
 
-mkdir data;
+my @lines = `wget -O - GET 'http://www.cityofomaha.org/cityclerk/city-council/$page'`;
+
+mkdir("data");
+
 for(@lines) {
     if (/.pdf/ && /agenda/ && m/href="([^"]+)"/) {
         print $1."\n";

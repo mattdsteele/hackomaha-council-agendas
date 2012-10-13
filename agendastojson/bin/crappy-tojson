@@ -5,6 +5,8 @@ use Data::Dumper;
 use HTTP::Request;
 use LWP::UserAgent;
 
+my $id = 0;
+
 for my $file (`ls data/*.txt`) {
     print $file;
     chomp $file;
@@ -32,7 +34,7 @@ for my $file (`ls data/*.txt`) {
 
     my $date = $pdfname;
     if ($date =~ m/a(\d+).(\d+).(\d+).*$/) {
-        $date = "$1-$2-$3";    
+        $date = "20$1$2$3";    
     }
 
     my $blobofstuff = {
@@ -55,10 +57,10 @@ for my $file (`ls data/*.txt`) {
     my $res = $ua->request($req);
     if ($res->is_success) {
         print "Deployed $pdfname\n";
-        print $res->content;
+        print $res->content, "\n";
     }
     else {
-        print $res->status_lie, "\n";
+        print $res->status_line, "\n";
     }
 
 }
