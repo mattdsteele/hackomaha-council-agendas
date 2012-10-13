@@ -1,0 +1,4 @@
+#!/bin/bash
+rm data/*
+bin/crappy-parser
+bin/crappy-converter

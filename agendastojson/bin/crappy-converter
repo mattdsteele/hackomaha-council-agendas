@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for x in data/*
+do 
+    pdftotext $x
+done
