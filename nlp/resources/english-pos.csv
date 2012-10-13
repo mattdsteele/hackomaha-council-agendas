@@ -22,7 +22,7 @@ RB,Adverb,no
 RBR,Adverb, comparative,no
 RBS,Adverb, superlative,no
 RP,Particle,no
-SYM,Symbol,no
+SYM,Symbol,yes
 TO,to,no
 UH,Interjection,no
 VB,Verb, base form,no
