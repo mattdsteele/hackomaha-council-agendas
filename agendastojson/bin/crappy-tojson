@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+use Encode;
 use JSON;
 use Data::Dumper;
 use HTTP::Request;
@@ -73,6 +74,8 @@ for my $file (`ls data/*.txt`) {
     while(<FH>) {
         $_ =~ s/^\s+//;
         $_ =~ s/\s+$//;
+
+        $_ = decode_utf8($_);
 
         if ($_ =~ m/^\s*$/) {
             $block =~ s/\s+$//;
