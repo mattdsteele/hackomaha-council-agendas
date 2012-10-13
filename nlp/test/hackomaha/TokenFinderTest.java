@@ -1,25 +1,36 @@
 package hackomaha;
 
-import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class NameFinderTest {
+public class TokenFinderTest {
+
+    private String text;
+
+    @Before
+    public void setUp() throws Exception {
+        text = getText();
+    }
+
     @Test
     public void canFindSomeNames() throws Exception {
-        NameFinder nameFinder = new NameFinder();
-        String text = getText();
-        Set<String> names = nameFinder.findNames(text);
+        TokenFinder tokenFinder = TokenFinder.nameFinder();
+        Set<String> names = tokenFinder.findNames(text);
         assertThat(names.contains("Jim Suttle"), is(true));
+    }
+
+    @Test
+    public void canFindOrgs() throws Exception {
+        Set<String> orgs = TokenFinder.orgFinder().findNames(text);
+        assertThat(orgs.contains("Union Pacific Railroad"), is(true));
     }
 
     private String getText() throws FileNotFoundException {
