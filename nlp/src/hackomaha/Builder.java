@@ -7,6 +7,7 @@ import java.io.InputStream;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.tokenize.TokenizerModel;
 
 public class Builder {
 	private static String EXCEPTION_MESSAGE = "Checked exceptions blow";
@@ -40,6 +41,18 @@ public class Builder {
 		try {
 			inputStream = new FileInputStream(filepath);
 			return new SentenceModel(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(EXCEPTION_MESSAGE, e);
+		} finally {
+			closeIfNeeded();
+		}
+	}
+
+	public static TokenizerModel tokenizerModel(String filepath) {
+		try {
+			inputStream = new FileInputStream(filepath);
+			return new TokenizerModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException(EXCEPTION_MESSAGE, e);
