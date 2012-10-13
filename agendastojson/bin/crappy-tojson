@@ -19,7 +19,7 @@ for my $file (`ls data/*.txt`) {
 
         if ($_ =~ m/^\s*$/) {
             $block =~ s/\s+$//;
-            push @text, $block;
+            push @text, $block if $block =~ m/\S/;
             $block = "";
         }
         else {
