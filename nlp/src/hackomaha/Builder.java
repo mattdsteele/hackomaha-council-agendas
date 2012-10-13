@@ -6,15 +6,16 @@ import java.io.InputStream;
 
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.postag.POSModel;
+import opennlp.tools.sentdetect.SentenceModel;
 
 public class Builder {
 
-	private static InputStream modelIn = null;
+	private static InputStream inputStream = null;
 
 	public static POSModel posModel(String filepath) {
 		try {
-			modelIn = new FileInputStream("resources/en-pos-maxent.bin");
-			return new POSModel(modelIn);
+			inputStream = new FileInputStream("resources/en-pos-maxent.bin");
+			return new POSModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Checked exceptions blow", e);
@@ -25,8 +26,8 @@ public class Builder {
 
 	public static TokenNameFinderModel tokenNameFinderModel(String filepath) {
 		try {
-			modelIn = new FileInputStream(filepath);
-			return new TokenNameFinderModel(modelIn);
+			inputStream = new FileInputStream(filepath);
+			return new TokenNameFinderModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Checked exceptions blow", e);
@@ -36,9 +37,9 @@ public class Builder {
 	}
 
 	private static void closeIfNeeded() {
-		if (modelIn != null) {
+		if (inputStream != null) {
 			try {
-				modelIn.close();
+				inputStream.close();
 			} catch (IOException e) {
 			}
 		}
