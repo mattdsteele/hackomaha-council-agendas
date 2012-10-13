@@ -1,0 +1,21 @@
+Dependencies: 
+	poppler-utils 
+		pdfimages pdf
+	tesseract  (google's ocrpus may work as well)  
+	imagemagick 
+		convert 
+
+pdfimages  filePDFofImages.PDF file
+	(generates file-000.pbm and up)
+convert file-000.pbm file-000.tif
+tesseract file-000.tif file-000.txt
+
+BulkMode:
+pdfimages  filePDFofImages.PDF file
+	(generates file-000.pbm and up)
+cat file-*.pbm > file.pbm
+convert file.pbm file.tif
+tesseract file.tif file.txt
+  
+
+1303a.pdf contains graphics that would want to be extracted and used as well.  This of course does not handle that.
