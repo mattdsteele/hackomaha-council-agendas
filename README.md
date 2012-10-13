@@ -20,3 +20,13 @@ working directory.
 Converts all the pdf's to text.
 Posts the pdf's to the elasticsearch server.
 Deletes all of its work.
+
+elasticsearch
+-------------
+
+The elasticsearch engine can be accessed at:
+http://simomaha.com:9200/citycouncil/agendas/{dashed-date}
+
+example:
+http://simomaha.com:9200/citycouncil/agendas/{dashed-date}
+
