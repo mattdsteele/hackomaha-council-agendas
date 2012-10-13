@@ -36,6 +36,18 @@ public class Builder {
 		}
 	}
 
+	public static SentenceModel sentenceModel(String filepath) {
+		try {
+			inputStream = new FileInputStream(filepath);
+			return new SentenceModel(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Checked exceptions blow", e);
+		} finally {
+			closeIfNeeded();
+		}
+	}
+
 	private static void closeIfNeeded() {
 		if (inputStream != null) {
 			try {

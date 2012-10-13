@@ -1,9 +1,11 @@
 package hackomaha;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
+import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.util.Span;
 
 import org.junit.Test;
@@ -29,7 +31,7 @@ public class TestFoo extends TestCase {
 	}
 
 	@Test
-	public void testLocation() throws Exception {
+	public void testLocation() {
 		NameFinderME nameFinder = new NameFinderME(
 				Builder.tokenNameFinderModel("resources/en-ner-location.bin"));
 		String[] tokens = { "Pierre", "Morgan", "is", "61", "yesars", "old",
@@ -40,5 +42,18 @@ public class TestFoo extends TestCase {
 			System.out.println("Start: " + tokens[span.getStart()]);
 			System.out.println("End: " + tokens[span.getEnd()]);
 		}
+	}
+
+	@Test
+	public void testSentence() {
+		SentenceDetectorME detector = new SentenceDetectorME(
+				Builder.sentenceModel("resources/en-sent.bin"));
+		String[] sentences = detector
+				.sentDetect(" This is the first sentence. This, however, is the second sentence! And the third? ");
+		Assert.assertEquals(3, sentences.length);
+		Assert.assertEquals(sentences[0], "This is the first sentence.");
+		Assert.assertEquals(sentences[1],
+				"This, however, is the second sentence!");
+		Assert.assertEquals(sentences[2], "And the third?");
 	}
 }
