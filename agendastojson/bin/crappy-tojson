@@ -95,6 +95,6 @@ for my $file (`ls data/*.txt`) {
         date => $date,
         text => \@text
     };
-    #&dbPut("agendas",$date,$blobofstuff);
+    &dbPut("agendas",$date,$blobofstuff);
     &putItems($blobofstuff);
 }
