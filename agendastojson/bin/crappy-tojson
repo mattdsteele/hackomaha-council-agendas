@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+
+use JSON;
+use Data::Dumper;
+use HTTP::Request;
+use LWP::UserAgent;
+
+for my $file (`ls data/*.txt`) {
+    print $file;
+    chomp $file;
+    my @text;
+    open (FH, "<$file");
+    my $block = "";
+    while(<FH>) {
+        $_ =~ s/^\s+//;
+        $_ =~ s/\s+$//;
+
+        if ($_ =~ m/^\s*$/) {
+            $block =~ s/\s+$//;
+            push @text, $block;
+            $block = "";
+        }
+        else {
+            $block .= $_ . " ";
+        }
+    }
+    close(FH);
+
+    my $pdfname = $file;
+    $pdfname =~ s/data\///;
+    $pdfname =~ s/txt$/pdf/;
+
+    my $date = $pdfname;
+    if ($date =~ m/a(\d+).(\d+).(\d+).*$/) {
+        $date = "$1-$2-$3";    
+    }
+
+    my $blobofstuff = {
+        name => $pdfname,
+        date => $date,
+        agenda => \@text
+    };
+
+    my $payload = &encode_json($blobofstuff);
+
+    my $ua = LWP::UserAgent->new;
+
+    $ua->agent("CrappyUserAgent");
+    
+    my $req = HTTP::Request->new(PUT =>
+        "http://172.16.100.194:9200/elasticsearch_kosai03/agenda/$date");
+    $req->content_type('application/json');
+    $req->content($payload);
+
+    my $res = $ua->request($req);
+    if ($res->is_success) {
+        print "Deployed $pdfname\n";
+        print $res->content;
+    }
+    else {
+        print $res->status_lie, "\n";
+    }
+
+}
