@@ -9,7 +9,7 @@ import opennlp.tools.postag.POSModel;
 import opennlp.tools.sentdetect.SentenceModel;
 
 public class Builder {
-
+	private static String EXCEPTION_MESSAGE = "Checked exceptions blow";
 	private static InputStream inputStream = null;
 
 	public static POSModel posModel(String filepath) {
@@ -18,7 +18,7 @@ public class Builder {
 			return new POSModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Checked exceptions blow", e);
+			throw new RuntimeException(EXCEPTION_MESSAGE, e);
 		} finally {
 			closeIfNeeded();
 		}
@@ -30,7 +30,7 @@ public class Builder {
 			return new TokenNameFinderModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Checked exceptions blow", e);
+			throw new RuntimeException(EXCEPTION_MESSAGE, e);
 		} finally {
 			closeIfNeeded();
 		}
@@ -42,7 +42,7 @@ public class Builder {
 			return new SentenceModel(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Checked exceptions blow", e);
+			throw new RuntimeException(EXCEPTION_MESSAGE, e);
 		} finally {
 			closeIfNeeded();
 		}
