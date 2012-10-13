@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Agenda {
@@ -55,7 +56,12 @@ public class Agenda {
 		}
 	}
 	
-	public boolean save() {
-		return false;
+	public void save() {
+		String content = json.toString();
+		try {
+			ElasticSearchAdapter.put("/" + DB + "/" + TABLE + "/" + json.get("_id"), content);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 }
