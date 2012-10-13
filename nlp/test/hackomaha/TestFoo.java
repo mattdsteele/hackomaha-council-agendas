@@ -1,15 +1,18 @@
 package hackomaha;
 
+import junit.framework.TestCase;
+import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
+import opennlp.tools.util.Span;
 
 import org.junit.Test;
 
-public class TestFoo {
+public class TestFoo extends TestCase {
 
 	@Test
 	public void testMaxent() {
-		POSModel model = PosModelBuilder.build("resources/en-pos-maxent.bin");
+		POSModel model = Builder.posModel("resources/en-pos-maxent.bin");
 
 		POSTaggerME tagger = new POSTaggerME(model);
 
@@ -25,4 +28,17 @@ public class TestFoo {
 		}
 	}
 
+	@Test
+	public void testLocation() throws Exception {
+		NameFinderME nameFinder = new NameFinderME(
+				Builder.tokenNameFinderModel("resources/en-ner-location.bin"));
+		String[] tokens = { "Pierre", "Morgan", "is", "61", "yesars", "old",
+				".", "1500", "N", "49th", "St", ",", "Omaha", ",", "NE",
+				"68104" };
+		Span[] spans = nameFinder.find(tokens);
+		for (Span span : spans) {
+			System.out.println("Start: " + tokens[span.getStart()]);
+			System.out.println("End: " + tokens[span.getEnd()]);
+		}
+	}
 }
