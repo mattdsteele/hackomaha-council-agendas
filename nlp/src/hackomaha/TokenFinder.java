@@ -15,6 +15,7 @@ public class TokenFinder {
         sentenceDetector = new SentenceDetector();
     }
 
+    @Deprecated
     public Set<String> findNames(String phrase) throws Exception {
         HashSet<String> names = new HashSet<String>();
         for (String sentence : sentenceDetector.getSentences(phrase)) {

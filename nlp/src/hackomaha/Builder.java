@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.postag.POSModel;
+import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
 
 public class Builder {
@@ -37,6 +40,16 @@ public class Builder {
 		}
 	}
 
+	public static NameFinderME nameFinder() {
+		return new NameFinderME(
+				Builder.tokenNameFinderModel("resources/en-ner-person.bin"));
+	}
+
+	public static NameFinderME orgFinder() {
+		return new NameFinderME(
+				Builder.tokenNameFinderModel("resources/en-ner-organization.bin"));
+	}
+
 	public static SentenceModel sentenceModel(String filepath) {
 		try {
 			inputStream = new FileInputStream(filepath);
@@ -47,6 +60,15 @@ public class Builder {
 		} finally {
 			closeIfNeeded();
 		}
+	}
+
+	public static SentenceDetectorME sentenceDetector() {
+		return new SentenceDetectorME(
+				Builder.sentenceModel("resources/en-sent.bin"));
+	}
+
+	public static TokenizerME tokenizer() {
+		return new TokenizerME(Builder.tokenizerModel("resources/en-token.bin"));
 	}
 
 	public static TokenizerModel tokenizerModel(String filepath) {

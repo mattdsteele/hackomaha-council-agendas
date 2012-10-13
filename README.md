@@ -9,6 +9,18 @@ Installation
 Git clone this. Run install/install.sh to set everything up.
 
 
+Hot Search Terms
+----------------
+* Zoning / Zone / Rezone
+* Liquor / "Special Designated License"
+* Planning
+* Public Hearing
+* Annex / Subdivision
+* OPW
+* Mayor
+* CSO
+* Contract / Purchase Order / Interlocal / Processional Service Agreement
+
 Sub-Projects
 ============
 
