@@ -1,7 +1,9 @@
 package hackomaha;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Agenda {
@@ -31,8 +33,26 @@ public class Agenda {
 		return new Agenda(json);
 	}
 
-	public boolean process() {
-		return false;
+	public Collection<Item> getItems() {
+		Collection<Item> items = new ArrayList<Item>();
+		
+		try {
+			JSONArray itemsJson = json.getJSONObject("_source").getJSONArray("items");
+			
+			for (int i = 0; i < itemsJson.length(); i ++) {
+				items.add(new Item(itemsJson.getJSONObject(i)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return items;
+	}
+	
+	public void process() {
+		for (Item item : getItems()) {
+			item.process();
+		}
 	}
 	
 	public boolean save() {

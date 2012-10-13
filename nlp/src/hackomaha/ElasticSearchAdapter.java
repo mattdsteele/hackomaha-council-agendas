@@ -28,6 +28,11 @@ public class ElasticSearchAdapter {
 		}
 		return content;
 	}
+	
+	public static void put(String path, String content) {
+		
+	}
+	
 	public static void main(String[] args) {
 //		for (Agenda agenda : Agenda.getAll()) {
 //			agenda.process();
