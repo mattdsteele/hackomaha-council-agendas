@@ -17,7 +17,7 @@ public class Main {
 		POSModel model = null;
 
 		try {
-		  modelIn = new FileInputStream("en-pos-maxent.bin");
+		  modelIn = new FileInputStream("resources/en-pos-maxent.bin");
 		  model = new POSModel(modelIn);
 		}
 		catch (IOException e) {
