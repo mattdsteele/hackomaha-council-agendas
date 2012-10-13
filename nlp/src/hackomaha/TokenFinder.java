@@ -6,12 +6,11 @@ import opennlp.tools.util.Span;
 
 import java.util.*;
 
-public class NameFinder {
+public class TokenFinder {
     private final NameFinderME nameFinder;
     private SentenceDetector sentenceDetector;
 
-    public NameFinder() {
-        TokenNameFinderModel model = Builder.tokenNameFinderModel("resources/en-ner-person.bin");
+    private TokenFinder(TokenNameFinderModel model) {
         nameFinder = new NameFinderME(model);
         sentenceDetector = new SentenceDetector();
     }
@@ -38,5 +37,13 @@ public class NameFinder {
             val += words[i] + " " ;
         }
         return val.trim();
+    }
+
+    public static TokenFinder nameFinder() {
+        return new TokenFinder(Builder.tokenNameFinderModel("resources/en-ner-person.bin"));
+    }
+
+    public static TokenFinder orgFinder() {
+        return new TokenFinder(Builder.tokenNameFinderModel("resources/en-ner-organization.bin"));
     }
 }
