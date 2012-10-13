@@ -17,36 +17,36 @@ public class AgendaItem {
 	public String[] sentences;
 
 	public AgendaItem(String text) {
-		map.put("addresses", new ArrayList<String>());
-		map.put("names", new ArrayList<String>());
-		map.put("companies", new ArrayList<String>());
+		List<String> namesList = new ArrayList<String>();
+		List<String> orgsList = new ArrayList<String>();
 
-		SentenceDetector detector = new SentenceDetector();
-		TokenizerME tokenizer = new TokenizerME(
-				Builder.tokenizerModel("resources/en-token.bin"));
-		NameFinderME nameFinder = new NameFinderME(
-				Builder.tokenNameFinderModel("resources/en-ner-person.bin"));
+		SentenceDetectorME detector = Builder.sentenceDetector();
+		TokenizerME tokenizer = Builder.tokenizer();
+		NameFinderME nameFinder = Builder.nameFinder();
+		NameFinderME orgFinder = Builder.orgFinder();
 
-		// NameFinderME locationFinder = new NameFinderME(
-		// Builder.tokenNameFinderModel("resources/en-ner-location.bin"));
+		this.sentences = detector.sentDetect(text);
 
-		sentences = detector.getSentences(text);
-
-		for (String sentence : sentences) {
-
+		for (String sentence : this.sentences) {
 			String[] words = tokenizer.tokenize(sentence);
 
-			Span[] nameSpans = nameFinder.find(words);
-			// Span[] locationSpans = locationFinder.find(words);
-
-			List<String> namesList = map.get("names");
-			for (Span span : nameSpans) {
-				String[] spanWords = Arrays.copyOfRange(words, span.getStart(),
-						span.getEnd());
-				namesList.add(join(spanWords));
+			for (Span span : nameFinder.find(words)) {
+				namesList.add(rebuildSpan(words, span));
 			}
+			for (Span span : orgFinder.find(words)) {
+				orgsList.add(rebuildSpan(words, span));
+			}
+
 		}
 
+		this.map.put("names", namesList);
+		this.map.put("companies", orgsList);
+	}
+
+	private String rebuildSpan(String[] words, Span span) {
+		String[] spanWords = Arrays.copyOfRange(words, span.getStart(),
+				span.getEnd());
+		return join(spanWords);
 	}
 
 	private String join(String[] spanWords) {
