@@ -19,3 +19,4 @@ tesseract file.tif file.txt
   
 
 1303a.pdf contains graphics that would want to be extracted and used as well.  This of course does not handle that.
+Someone mentioned very recently when i asked about PDF parsing that they directly OCRed PDFs that were just images
