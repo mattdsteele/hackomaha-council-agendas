@@ -9,8 +9,8 @@ $(function() {
             hit = data.hits.hits[h];
             $("#results").append(t.searchItem({
                 id: hit._id,
-                title: hit.fields.text[0],
-                body: hit.fields.text
+                title: hit._id,
+                items: hit.fields.items
             }));
             $("#progress").fadeOut();
         }
