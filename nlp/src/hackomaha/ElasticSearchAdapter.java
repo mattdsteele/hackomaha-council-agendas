@@ -3,11 +3,6 @@ package hackomaha;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
 public class ElasticSearchAdapter {
 	static String HOST = "simomaha.com";
 	static int PORT = 9200;
@@ -23,10 +18,10 @@ public class ElasticSearchAdapter {
 	}
 	
 	public static void main(String[] args) {
-//		for (Agenda agenda : Agenda.getAll()) {
-//			agenda.process();
-//			agenda.save();
-//		}
-        Agenda.get("2012-10-16");
+		for (Agenda agenda : Agenda.getAll()) {
+			System.out.println("Processing: " + agenda);
+			agenda.process();
+			agenda.save();
+		}
 	}
 }
