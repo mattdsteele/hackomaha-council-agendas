@@ -18,7 +18,21 @@ public class Agenda {
 	}
 	
 	public static Collection<Agenda> getAll() {
-		return null;
+		String content = ElasticSearchAdapter.get("/" + DB + "/" + TABLE + "/_search");
+		Collection<Agenda> agendas = new ArrayList<Agenda>();
+		
+		try {
+			JSONObject json = new JSONObject(content);
+			JSONArray agendasJson = json.getJSONObject("hits").getJSONArray("hits");
+			for (int i = 0; i < agendasJson.length(); i++) {
+				agendas.add(new Agenda(agendasJson.getJSONObject(i)));
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return agendas;
 	}
 	
 	public static Agenda get(String id) {
@@ -52,6 +66,7 @@ public class Agenda {
 	
 	public void process() {
 		for (Item item : getItems()) {
+			System.out.println("Processing: " + item);
 			item.process();
 		}
 	}
