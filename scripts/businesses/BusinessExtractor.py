@@ -2,9 +2,10 @@
 # the purpose of this module is to go through the 4000+ html pages from
 # www.owhyellowpages.com that contain business listings so as to extract
 # the business name, address, and possibly other relevant information.
+# Two approaches can be taken:
+# - access the file on disk and parse relevant content
+# - access the file online and parser the relevant content
 
-from HTMLParser import HTMLParser
-from HTMLParser import HTMLParseError
 from bs4 import BeautifulSoup
 import urllib2
 
