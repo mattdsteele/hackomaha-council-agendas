@@ -20,7 +20,7 @@
                 <div class="accordion-inner">
                     <% _.each(items, function(item) { %>
                         <div> 
-                            <h3><%= item.id %></h3>
+                            <h3>Agenda Item: <%= item.index %></h3>
                         <% _.each(item.text, function(line) { %>
                             <p>
                                 <%= line %>
