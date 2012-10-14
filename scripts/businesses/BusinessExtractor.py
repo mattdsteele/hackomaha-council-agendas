@@ -9,16 +9,11 @@
 from bs4 import BeautifulSoup
 import urllib2
 
-# f = open('yellowpages/business1.html', 'r')
-# html = f.read()
-# soup = BeautifulSoup(html, "html5lib")
-# tags = soup.find("div", { "class" : "fn org" })
-# print tags
-
+# Some global variables
 htmlfile = "yellowpages/business" # need to add number and .html to end
 firstfile = "yellowpages/business0.html"
 
-# get_file_soup
+# get_file_soup: String -> Soup
 # this function takes a file name and generates the soup object for
 # it using the BeautifulSoup library.
 def get_file_soup(filename):
@@ -39,7 +34,7 @@ def get_url_soup(url):
 	f.close()
 	return soup
 
-# get_address_for_business
+# get_address_for_business: Soup -> String
 # this function takes a particular vcard business from the overall
 # html soup and finds the street-address and returns that unicode object
 def get_address_for_business(vcard):
@@ -54,7 +49,7 @@ def get_address_for_business(vcard):
 	else:
 		return ""
 
-# get_citystate_for_business
+# get_citystate_for_business: Soup -> String
 # this function takes a particular vcard business from the overall
 # html soup and finds the citystate info and returns that unicode object
 def get_citystate_for_business(vcard):
@@ -69,7 +64,7 @@ def get_citystate_for_business(vcard):
 	else:
 		return ""
 
-# get_name_for_business
+# get_name_for_business: Soup -> String
 # this function takes a particular vcard business from the overall
 # html soup and finds the name of the business and returns that unicode object
 def get_name_for_business(vcard):
@@ -84,7 +79,7 @@ def get_name_for_business(vcard):
 	else:
 		return ""
 
-# print_each_vcard
+# print_each_vcard: Soup -> void
 # this function will go through the 10 vcards for a given soup of the html
 # page and spit out the information in CSV format to the console
 def print_each_vcard(soup):
@@ -96,6 +91,10 @@ def print_each_vcard(soup):
 		items.append(get_citystate_for_business(vcard))
 		print ','.join('"{0}"'.format(w) for w in items)
 
+# list_each_vcard: Soup -> String[]
+# this function will go through the approx. 10 vcards for a given soup of
+# the html page, aggregate the desired pieces of info into a list, and then
+# return that list.
 def list_each_vcard(soup):
 	vcards = soup.findAll('div', { 'class' : 'vcard' })
 	businesses = []
