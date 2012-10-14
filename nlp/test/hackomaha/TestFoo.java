@@ -1,5 +1,7 @@
 package hackomaha;
 
+import java.util.Arrays;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import opennlp.tools.namefind.NameFinderME;
@@ -39,8 +41,12 @@ public class TestFoo extends TestCase {
 				"68104" };
 		Span[] spans = nameFinder.find(tokens);
 		for (Span span : spans) {
-			System.out.println("Start: " + tokens[span.getStart()]);
-			System.out.println("End: " + tokens[span.getEnd()]);
+			System.out.print(span + ": ");
+			for (String word : Arrays.copyOfRange(tokens, span.getStart(),
+					span.getEnd())) {
+				System.out.print(word);
+			}
+			System.out.println();
 		}
 	}
 
@@ -56,4 +62,22 @@ public class TestFoo extends TestCase {
 				"This, however, is the second sentence!");
 		Assert.assertEquals(sentences[2], "And the third?");
 	}
+
+	@Test
+	public void testNameFinder() {
+		NameFinderME nameFinder = new NameFinderME(
+				Builder.tokenNameFinderModel("resources/en-ner-person.bin"));
+		String sentence[] = new String[] { "Pierre", "Vinken", "is", "61",
+				"years", "old", "." };
+
+		Span nameSpans[] = nameFinder.find(sentence);
+
+		for (Span span : nameSpans) {
+			System.out.println("NEW SPAN");
+			for (int i = span.getStart(); i < span.getEnd(); i++) {
+				System.out.println(sentence[i]);
+			}
+		}
+	}
+
 }

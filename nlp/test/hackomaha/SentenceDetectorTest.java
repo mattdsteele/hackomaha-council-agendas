@@ -1,10 +1,8 @@
 package hackomaha;
 
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import org.junit.Assert;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class SentenceDetectorTest {
 
