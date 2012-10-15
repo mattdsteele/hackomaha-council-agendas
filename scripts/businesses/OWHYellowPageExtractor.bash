@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Download all of the Omaha World Herald Yellow Page businesses
 #
 # The general form of the URL to wget is:
