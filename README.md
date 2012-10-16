@@ -23,6 +23,14 @@
 - CSO
 - Contract / Purchase Order / Interlocal / Processional Service Agreement
 
+# Future Work
+***
+- Import ALL past agendas into ElasticSearch database
+- Push forward with NLP implementation (break this down into more concrete goals)
+- Figure out how to extract addresses from the document text (Yahoo! Placemaker for geocoding)
+- Improve current front-end by displaying specific agenda items and highlighting search terms
+- Mockup/Prototype other front-ends (e.g. two panel display that utilizes NLP information)
+
 # Sub-Projects
 ***
 
