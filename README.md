@@ -52,3 +52,13 @@ To access a specific agenda by its identifier, use the URL format:
 example:
 [http://simomaha.com:9200/citycouncil/agendas/2012-10-16](http://simomaha.com:9200/citycouncil/agendas/2012-10-16)
 
+# References/Resources
+***
+- [Apache OpenNLP](http://opennlp.apache.org/)
+- [elasticsearch](http://www.elasticsearch.org)
+- [Omaha City Council Agendas](http://www.cityofomaha.org/cityclerk/city-council/agendas)
+
+# Related Work
+***
+- [Beehive Agenda Management](http://www.beehiveindustries.com/solutions/agenda-management/)
+
