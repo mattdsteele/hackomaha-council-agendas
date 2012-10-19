@@ -5,6 +5,9 @@ Included Files:
 * OWHYellowPageExtractor.bash
 * BusinessExtractor.py
 
+[Scraping Business Listings in Omaha](http://joshbranchaud.wordpress.com/2012/10/19/scraping-business-listings-in-omaha/)
+: a blog post I wrote to explain how this all was implemented
+
 OWHYellowPageExtractor.bash
 ---------------------------
 This is a quick and dirty bash script to pull business listings HTML pages
