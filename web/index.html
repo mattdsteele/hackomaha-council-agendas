@@ -19,7 +19,20 @@
             </div>
             <div id="<%= id %>" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <% _.each(items, function(item) { %>
+                    <% _.each(_.filter(items,function(item) {
+                            var match = false, l, line, t,
+                            terms = $("input[name=search]").val().split(" ");
+                            for (l in item.text) {
+                                line = item.text[l];
+                                for (t in terms) {
+                                    if (line.toLowerCase().match(terms[t].toLowerCase())) {
+                                        match = true;
+                                    }
+                                }
+                            }
+                            return match;
+                        }), function(item) {
+                        %>
                         <div> 
                             <h3>Agenda Item: <%= item.index %></h3>
                         <% _.each(item.text, function(line) { %>
