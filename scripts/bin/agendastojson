@@ -1,9 +1,0 @@
-#!/bin/bash
-
-rm data/*
-bin/crappy-parser
-bin/crappy-parser 'agendas?start=9'
-bin/crappy-parser 'agendas?start=9'
-bin/crappy-converter
-bin/crappy-tojson
-

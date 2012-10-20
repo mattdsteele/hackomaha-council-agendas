@@ -1,0 +1,161 @@
+#!/usr/bin/perl
+=head1 SYNOPSIS
+
+agenda-scraper
+
+=head1 STEPS
+
+1: Go to the main page and grab the agenda item links
+2: Check to see if we already have the selected item in the database.
+3: If new, add it to the database.
+
+=head1 SUBROUTINES
+
+=cut
+
+use Encode;
+use JSON;
+use Data::Dumper;
+use HTTP::Request;
+use LWP::UserAgent;
+
+
+
+use strict;
+use warnings;
+
+=head3 getAgendas
+
+Return a list of agendas from the specified page
+
+=cut
+sub getAgendas {
+    my ($page) = @_;
+    my %agendaPdfs;
+    my $base_url = 'http://www.cityofomaha.org/cityclerk/city-council/';
+    for(`wget -O - GET '$base_url$page' 2>/dev/null`) {
+        if (/.pdf/ && /agenda/ && m/href="([^"]+)"/) {
+            print $1."\n";
+            $agendaPdfs{$1} = "http://www.cityofomaha.org$1";
+        }
+    }
+    return %agendaPdfs;
+}
+
+=head3 getPdf
+
+Retrieve a PDF file at a given location, convert it into a PDF string.
+We are using pdftotext because it does a significantly better job by
+default than CAM::PDF.
+
+=cut
+sub getPdf {
+    my ($url) = @_;
+    `wget -O /tmp/tmpAgenda.pdf $url 2>/dev/null`;
+    return `pdftotext -nopgbrk /tmp/tmpAgenda.pdf - `;
+}
+
+=head3 addToDocumentStore
+
+Drops $payload at $index in $table in the simonmaha document store.
+
+=cut
+sub addToDocumentStore {
+    my ($table, $index, $payobj) = @_;
+    my $payload = &encode_json($payobj);
+
+    my $testReq =  HTTP::Request->new(
+        GET => "http://simomaha.com:9200/citycouncil/$table/$index"
+    );
+
+    my $addReq = HTTP::Request->new(
+        PUT => "http://simomaha.com:9200/citycouncil/$table/$index"
+    );
+
+    $addReq->content_type('application/json');
+    $addReq->content($payload);
+
+    my $ua = LWP::UserAgent->new;
+    $ua->agent("CrappyUserAgent");
+
+    # Check to see if there is already an agenda item
+    print "Checking to see if item is new... ";
+    my $res = $ua->request($testReq);
+    if ($res->is_success) { # we expect a 404
+        print "Item Already Exists!\n";
+        return;
+    }
+    print "Adding agenda item to datastore\n";
+    $res = $ua->request($addReq);
+    if ($res->is_success) { # we expect a 404
+        print "Agenda Added to Datastore!\n";
+    }
+    else {
+        print $res->status_line."\n";
+    }
+}
+
+=head3 extractAgendaItems
+
+Extracts a list of agenda items from a blob of text.
+
+=cut
+sub extractAgendaItems {
+    my ($text) = @_;
+    my @itemList;
+    my $item = {
+        text => [],
+        index => 0
+    };
+    for my $line (@{$text}) {
+        if ($line =~ m/^(\d+)\.$/) {
+            if ($item->{index}) {
+                push @itemList , $item;
+            }
+            $item = {
+                text => [],
+                index => $1
+            };
+        }
+        else {
+            push @{$item->{text}}, $line;
+        }
+    }
+    push  @itemList, $item;
+    return \@itemList;
+}
+
+# BEGIN MAIN CODE #######################################################
+
+my %agendas = &getAgendas("agendas");
+for my $agenda (keys %agendas) {
+    my @paragraphs;
+    my $block = "";
+    for (&getPdf($agendas{$agenda})) {
+        # Sanitize the line
+        $_ =~ s/^\s+//;
+        $_ =~ s/\s+$//;
+        $_ = decode_utf8($_);
+
+        # We save blocks of text in an array of paragraphs
+        if ($_ =~ m/^\s*$/) {
+            $block =~ s/\s+$//;
+            push @paragraphs, $block if $block =~ m/\S/;
+            $block = "";
+        }
+        # add the current line to the paragrapg array.
+        else {
+            $block .= $_ . " ";
+        }
+    }
+    my $date = $agenda;
+    $date =~ s/^.*a(\d+).(\d+).(\d+).*$/20$1-$2-$3/ || die("malformed name");
+
+    # We are indexing documents by date
+    &addToDocumentStore("agendas", $date, {
+        file => $agenda,
+        date => $date,
+        text => \@paragraphs,
+        items => &extractAgendaItems(\@paragraphs)
+    });
+}
