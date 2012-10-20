@@ -4,16 +4,20 @@ $(function() {
     t.searchItem = _.template($("#listItemTemplate").html());
 
     t.populateItems = function(data) {
-        var h, hit;
+        var h, hit, results;
+        $("#progress").fadeOut();
+        $("#results").html("");
+        
+        results = "";
         for ( h in data.hits.hits ) {
             hit = data.hits.hits[h];
-            $("#results").append(t.searchItem({
+            results += t.searchItem({
                 id: hit._id,
                 title: hit._id,
                 items: hit.fields.items
-            }));
-            $("#progress").fadeOut();
+            });
         }
+        $("#results").html(results);
     };
 
     $("#progress").hide();

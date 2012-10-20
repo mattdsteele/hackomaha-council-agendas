@@ -30,16 +30,15 @@
 - Figure out how to extract addresses from the document text (Yahoo! Placemaker for geocoding)
 - Improve current front-end by displaying specific agenda items and highlighting search terms
 - Mockup/Prototype other front-ends (e.g. two panel display that utilizes NLP information)
+- Tie NLP processing of agenda items to nightly script.
 
 # Sub-Projects
 ***
 
-## agendastojson/bin/agendastojson
+## scraper/bin/agenda-scraper
 ***
-1. Grabs all pdf's on the agenda page and stores them to `data/` in the current working directory
-2. Converts all the pdf's to text
-3. Posts the pdf's to the elasticsearch server
-4. Cleans up after itself
+- Runs every night at midnight.
+- Downloads every agenda on the main page and adds them to our datastore if they are not already in there.
 
 ## elasticsearch
 ***
