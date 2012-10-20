@@ -26,9 +26,15 @@ $(function() {
         $.ajax({
             url:"/citycouncil/agendas/_search?fields=items",
             data: JSON.stringify({
-                query: {
-                    term: {
-                        text: $("input[name=search]").val()
+                sort : [
+                  { "date" : {"order" : "desc"} }
+                ],
+                query : {
+                    text: {
+                        text: { 
+                            query: $("input[name=search]").val().toLowerCase(),
+                            operator: "AND"
+                        }
                     }
                 }
             }),
