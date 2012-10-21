@@ -31,6 +31,7 @@
 - Improve current front-end by displaying specific agenda items and highlighting search terms
 - Mockup/Prototype other front-ends (e.g. two panel display that utilizes NLP information)
 - Tie NLP processing of agenda items to nightly script.
+- Collect data (e.g. what search terms are being used)
 
 # Sub-Projects
 ***
