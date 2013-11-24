@@ -30,13 +30,18 @@ Return a list of agendas from the specified page
 
 =cut
 sub getAgendas {
-    my ($page) = @_;
     my %agendaPdfs;
-    my $base_url = 'http://www.cityofomaha.org/cityclerk/city-council/';
-    for(`wget -O - GET '$base_url$page' 2>/dev/null`) {
-        if (/.pdf/ && /agenda/ && m/href="([^"]+)"/) {
-            print $1."\n";
-            $agendaPdfs{$1} = "http://www.cityofomaha.org$1";
+    my $base_url = "http://www.cityofomaha.org/cityclerk/archived-city-council-documents?start=$ARGV[0]";
+
+    for(`wget -O - GET '$base_url' 2>/dev/null`) {
+        if (/archived/ && m/href="([^"]+)"/) {
+            print $1."?\n";
+            for(`wget -O - GET 'http://www.cityofomaha.org$1' 2>/dev/null`) {
+                if (/(?:journal|agenda)/ && /pdf/ && m/href="([^"]+)"/) {
+                    print $1."\n";
+                    $agendaPdfs{$1} = "http://www.cityofomaha.org$1";
+                }
+            }
         }
     }
     return %agendaPdfs;
@@ -127,7 +132,7 @@ sub extractAgendaItems {
 
 # BEGIN MAIN CODE #######################################################
 
-my %agendas = &getAgendas("agendas");
+my %agendas = &getAgendas("");
 for my $agenda (keys %agendas) {
     my @paragraphs;
     my $block = "";
@@ -149,7 +154,7 @@ for my $agenda (keys %agendas) {
         }
     }
     my $date = $agenda;
-    $date =~ s/^.*a(\d+).(\d+).(\d+).*$/20$1-$2-$3/ || die("malformed name");
+    $date =~ s/^.*[a|j|J](\d+).(\d+).(\d+).*$/20$1-$2-$3/ || die("malformed name");
 
     # We are indexing documents by date
     &addToDocumentStore("agendas", $date, {
