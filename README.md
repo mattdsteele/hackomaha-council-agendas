@@ -61,4 +61,5 @@ example:
 # Related Work
 ***
 - [Beehive Agenda Management](http://www.beehiveindustries.com/solutions/agenda-management/)
+- [Open/Nebraska TIF Project](https://github.com/opennebraska/pri-tif) downloads all the Journals (minutes) of the Omaha City Council, which is a very similar effort to this Agendas project.
 
